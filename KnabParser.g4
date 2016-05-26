@@ -7,7 +7,6 @@ kihelkond: uldandmed kirjed lisainfo? EOF;
 uldandmed: Rida Rida;
 
 kirjed: kirje (KIRJESEP kirje)*? KIRJEEND;
-//kirjed: kirje ('%' NL kirje)*? '!' NL;
 
 kirje: pohirida lisarida jargrida*?;
 
@@ -15,16 +14,19 @@ pohirida: Rida;
 
 lisarida: Rida;
 
-jargrida: viide  // lisada -> rewriteRule mis asendab jargrida viide-ga
-        | ametlikRoopnimi // siia samuti parsepuu tipu asendus
+jargrida: viide
+        | ametlikRoopnimi
         | laiend
         | roopnimed
         | iseloomustus
+        | morfoloogia
         | etymoloogia
+        | geotunnused
         | alaobjektid
+        | ylaobjektid
+        | lisaviited
         | ajalugu
         | koostaja
-        //| Rida
         ;
 
 lisainfo: Rida*;
@@ -34,25 +36,12 @@ ametlikRoopnimi: AmetlikRoopnimi;
 laiend: Laiend;
 roopnimed: Roopnimed;
 iseloomustus: Iseloomustus;
+morfoloogia: Morfoloogia;
 etymoloogia: Etymoloogia;
+geotunnused: Geotunnused;
 alaobjektid: Alaobjektid;
+ylaobjektid: Ylaobjektid;
+lisaviited: Lisaviited;
 ajalugu: Ajalugu;
 koostaja: Koostaja;
 
-/*
-Viide: '>' Rida;
-AmetlikRoopnimi: '=' Rida;
-Laiend: '$' Rida;
-Roopnimed: '(' Rida;
-// '1'
-// '3'
-// '5'
-// '8'
-// '9'
-
-
-Rida: TEXT*;
-TEXT: ~[\r\n];
-
-WS: [\r\n] {skip();} ;
-*/
