@@ -3,22 +3,24 @@ lexer grammar KnabLexer;
 KIRJESEP: '%\r\n';
 KIRJEEND: '!\r\n';
 
+/*
 LisaridaOsis: ~[/\n\r]+;
-LisaridaSep: '/';
+LisaridaSep:  '/';
+*/
 
-Viide: '>' Rida;
+Viide:           '>' Rida;
 AmetlikRoopnimi: '=' Rida;
-Laiend: '$' Rida; // -> mode(LAIEND);
-Roopnimed: '(' Rida;
-Iseloomustus: '1' Rida;
-Morfoloogia: '2' Rida;
-Etymoloogia: '3' Rida;
-Geotunnused: '4' Rida;
-Alaobjektid: '5' Rida;
-Ylaobjektid: '6' Rida;
-Lisaviited: '7' Rida;
-Ajalugu: '8' Rida;
-Koostaja: '9' Rida;
+Laiend:          '$' Rida; // -> mode(LAIEND);
+Roopnimed:       '(' Rida;
+Iseloomustus:    '1' Rida;
+Morfoloogia:     '2' Rida;
+Etymoloogia:     '3' Rida;
+Geotunnused:     '4' Rida;
+Alaobjektid:     '5' Rida;
+Ylaobjektid:     '6' Rida;
+Lisaviited:      '7' Rida;
+Ajalugu:         '8' Rida;
+Koostaja:        '9' Rida;
 
 Rida: TEXT* NL;
 TEXT: ~[\r\n];

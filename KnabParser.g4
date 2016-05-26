@@ -8,13 +8,13 @@ uldandmed: Rida Rida;
 
 kirjed: kirje (KIRJESEP kirje)*? KIRJEEND;
 
-kirje: pohirida lisarida jargrida*?;
+kirje: pohirida lisarida jargread?;
 
 pohirida: Rida;
 
 lisarida: Rida;
 
-jargrida: viide
+jargread: (viide
         | ametlikRoopnimi
         | laiend
         | roopnimed
@@ -26,22 +26,22 @@ jargrida: viide
         | ylaobjektid
         | lisaviited
         | ajalugu
-        | koostaja
+        | koostaja)*
         ;
 
 lisainfo: Rida*;
 
-viide: Viide;
+viide:           Viide;
 ametlikRoopnimi: AmetlikRoopnimi;
-laiend: Laiend;
-roopnimed: Roopnimed;
-iseloomustus: Iseloomustus;
-morfoloogia: Morfoloogia;
-etymoloogia: Etymoloogia;
-geotunnused: Geotunnused;
-alaobjektid: Alaobjektid;
-ylaobjektid: Ylaobjektid;
-lisaviited: Lisaviited;
-ajalugu: Ajalugu;
-koostaja: Koostaja;
+laiend:          Laiend;
+roopnimed:       Roopnimed;
+iseloomustus:    Iseloomustus;
+morfoloogia:     Morfoloogia;
+etymoloogia:     Etymoloogia;
+geotunnused:     Geotunnused;
+alaobjektid:     Alaobjektid;
+ylaobjektid:     Ylaobjektid;
+lisaviited:      Lisaviited;
+ajalugu:         Ajalugu;
+koostaja:        Koostaja;
 
