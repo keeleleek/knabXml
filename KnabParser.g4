@@ -45,7 +45,7 @@ jargread:   (viiterida
             | koostaja
             )+;
 
-lisainfo:   NL? ({print("<lisainforida>");} text? NL {print("</lisainforida>\n");})+;
+lisainfo:   NL? {print("<lisainfo>");}  (text? NL)+  {print("</lisainfo>\n");};
 
 viiterida:       ViiteridaSep       {print("<viiterida>");}           text {print("</viiterida>\n");};
 ametlikRoopnimi: AmetlikRoopnimiSep {print("<ametlikrööpnimirida>");} text {print("</ametlikrööpnimirida>\n");};
