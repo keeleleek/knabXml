@@ -1,4 +1,5 @@
 lexer grammar KnabLexer;
+@lexer::header { package ee.eki; }
 
 /* üldine loogika on, et reavahetustega algavad read, mitte ei lõpe */
 

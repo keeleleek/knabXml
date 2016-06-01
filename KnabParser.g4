@@ -1,5 +1,6 @@
 parser grammar KnabParser;
 options { tokenVocab=KnabLexer; }
+@parser::header { package ee.eki; }
 @parser::members {
     /** Eemaldab tekstist esimese ja viimase tähemärgi. */
     String chop(String text) {
@@ -10,8 +11,6 @@ options { tokenVocab=KnabLexer; }
         System.out.print(text);
     }
 }
-
-//antlr4 KnabLexer.g4 && antlr4 KnabParser.g4 && javac Knab*.java && grun Knab kihelkond -tokens -gui ./EHRHAG.JXF
 
 kihelkond:  {print("<kihelkond>\n");}
             {print("<üldandmed>");} uldandmed {print("</üldandmed>\n");}
