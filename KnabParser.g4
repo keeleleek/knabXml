@@ -19,8 +19,8 @@ kihelkond:  {print("<kihelkond>\n");}
             EOF
             {print("</kihelkond>\n");};
 
-uldandmed:  {print("<rida1>");} TEXT NL {print("</rida1>\n");}
-            {print("<rida2>");} TEXT NL {print("</rida2>\n");};
+uldandmed:  {print("<rida1>");} text {print("</rida1>\n");} NL
+            {print("<rida2>");} text {print("</rida2>\n");} NL ;
 
 kirjed:     kirje (KIRJESEP kirje)*? KIRJEEND;
 

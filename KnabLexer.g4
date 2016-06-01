@@ -41,24 +41,24 @@ KoostajaSep:        '\r\n9';
 /** tavaline reavahetus */
 NL: '\r\n';
 
+
 /** allikaviide on nurksulgudes */
 ALLIKAVIIDE: AllikaviideAlgus AllikaviideTekst AllikaviideLopp;
 fragment AllikaviideAlgus: '[';
-fragment AllikaviideTekst: ~[\]]+;
+fragment AllikaviideTekst: ~[\]\r\n]+;
 fragment AllikaviideLopp:  ']';
-
 
 /** kommentaarid on loogelistes sulgudes */
 KOMMENTAAR: KommentaariAlgus KommentaariTekst KommentaariLopp;
 fragment KommentaariAlgus: '{';
-fragment KommentaariTekst: ~[}]+;
+fragment KommentaariTekst: ~[}\r\n]+;
 fragment KommentaariLopp:  '}';
 
 /** infomärgendid on looksulgudes */
 INFOMARGEND: InfomargendAlgus InfomargendTekst InfomargendLopp;
 fragment InfomargendAlgus: '<';
-fragment InfomargendTekst: ~[>]+;
+fragment InfomargendTekst: ~[>\r\n]+;
 fragment InfomargendLopp:  '>';
 
-/** tekst on kõik peale erimärgendite ja reavahetuste */
-TEXT: ~[[{<\r\n]+;
+/** tekst on kõik peale reavahetuste */
+TEXT: ~[\r\n]+?;
