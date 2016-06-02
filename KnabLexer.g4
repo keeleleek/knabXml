@@ -3,6 +3,7 @@ lexer grammar KnabLexer;
 
 /* üldine loogika on, et reavahetustega algavad read, mitte ei lõpe */
 
+BOM: '\uFEFF';
 
 /** kirjete vahel on % ja kirjete loendi lõpus on ! */
 KIRJESEP: '\r\n%\r\n';

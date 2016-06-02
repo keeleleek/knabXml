@@ -12,15 +12,15 @@ options { tokenVocab=KnabLexer; }
     }
 }
 
-kihelkond:  {print("<kihelkond>\n");}
+kihelkond:  BOM? {print("<kihelkond>\n");}
             {print("<üldandmed>");} uldandmed {print("</üldandmed>\n");}
             kirjed
             lisainfo?
             EOF
             {print("</kihelkond>\n");};
 
-uldandmed:  {print("<rida1>");} text {print("</rida1>\n");} NL
-            {print("<rida2>");} text {print("</rida2>\n");} NL ;
+uldandmed:  {print("<rida1>");} text {print("</rida1>\n");} nl
+            {print("<rida2>");} text {print("</rida2>\n");} nl ;
 
 kirjed:     kirje (KIRJESEP kirje)*? KIRJEEND;
 
@@ -45,7 +45,7 @@ jargread:   (viiterida
             | koostaja
             )+;
 
-lisainfo:   NL? {print("<lisainfo>");}  (text? NL)+  {print("</lisainfo>\n");};
+lisainfo:   nl? {print("<lisainfo>");}  (text? nl)+  {print("</lisainfo>\n");};
 
 viiterida:       ViiteridaSep       {print("<viiterida>");}           text {print("</viiterida>\n");};
 ametlikRoopnimi: AmetlikRoopnimiSep {print("<ametlikrööpnimirida>");} text {print("</ametlikrööpnimirida>\n");};
@@ -66,3 +66,5 @@ infomargend: INFOMARGEND {print("<infomärgendid>"         + chop($INFOMARGEND.t
 allikaviide: ALLIKAVIIDE {print("<allikaviitemärgendid>"  + chop($ALLIKAVIIDE.text) + "</allikaviitemärgendid>");};
 kommentaar:  KOMMENTAAR  {print("<kommentaarimärgendid>"  + chop($KOMMENTAAR.text)  + "</kommentaarimärgendid>");};
 sisu: TEXT   {print($TEXT.text);};
+
+nl: NL;
