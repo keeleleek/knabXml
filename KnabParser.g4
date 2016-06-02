@@ -8,7 +8,7 @@ options { tokenVocab=KnabLexer; }
     }
     /** Trükib teksti välja */
     void print(String text) {
-        System.out.print(text);
+        //System.out.print(text);
     }
 }
 
