@@ -94,6 +94,19 @@ Sissejuhatus
 \end_layout
 
 \begin_layout Standard
+Projekti eesmärk on viia kohanimede andmebaasi allikfailide toimetamise
+ Eesti Keele Instituudi sõnastikutoimetamis-süsteemi 
+\begin_inset CommandInset href
+LatexCommand href
+name "EELex"
+target "http://eelex.eki.ee/"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
 Kohanimeandmebaas (KNAB) on Eesti Keele Instituudis arendatav süstemaatiline
  kohanimeandmete kogu, mis hõlmab nii Eesti kui ka välismaa nimesid.
  Selle eesmärk on kaasa aidata nimede uurimisele ja nende normimisele, pakkudes

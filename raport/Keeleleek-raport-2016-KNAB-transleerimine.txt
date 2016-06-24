@@ -8,6 +8,10 @@ Peeter Päll, Eesti Keele Instituut
 
 1 Sissejuhatus
 
+Projekti eesmärk on viia kohanimede andmebaasi allikfailide 
+toimetamise Eesti Keele Instituudi sõnastikutoimetamis-süsteemi [http://eelex.eki.ee/||EELex]
+.
+
 Kohanimeandmebaas (KNAB) on Eesti Keele Instituudis arendatav 
 süstemaatiline kohanimeandmete kogu, mis hõlmab nii Eesti kui ka 
 välismaa nimesid. Selle eesmärk on kaasa aidata nimede uurimisele 
