@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0//EN" "http://www.w3.org/Math/DTD/mathml2/xhtml-math11-f.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="GENERATOR" content="LyX 2.1.4" />
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+<title>EKI kohanimede andmebaasi allikfailidekonverteerimine XMLiks translaatori abil</title>
+<style type='text/css'>
+/* Layout-provided Styles */
+h1.title {
+font-size: x-large;
+margin-bottom: 1ex;
+text-align: center;
+
+}
+div.date {
+font-size: large;
+margin-top: 0.9ex;
+margin-bottom: 0.5ex;
+text-align: center;
+
+}
+div.author {
+font-size: large;
+margin-top: 1.3ex;
+margin-bottom: 0.7ex;
+text-align: center;
+
+}
+h2.section {
+font-weight: bold;
+font-size: x-large;
+margin-top: 1.3ex;
+margin-bottom: 0.7ex;
+text-align: left;
+
+}
+div.standard {
+margin-bottom: 2ex;
+}
+div.plain_layout {
+text-align: left;
+
+}
+h3.subsection {
+font-weight: bold;
+font-size: large;
+margin-top: 0.9ex;
+margin-bottom: 0.5ex;
+text-align: left;
+
+}
+<pre></pre>.verbatim {
+font-family: monospace;
+margin-top: 0.7ex;
+margin-bottom: 0.7ex;
+text-align: left;
+
+}
+div.float {
+border: 2px solid black;
+text-align: center;
+}
+pre.listings {
+font-family: monospace;
+}
+div.float-caption {
+text-align: center;
+border: 2px solid black;
+padding: 1ex;
+margin: 1ex;
+}
+
+
+</style>
+</head>
+<body>
+<h1 class="title"><a id='magicparlabel-3355' />EKI kohanimede andmebaasi allikfailide
+<br />
+
+konverteerimine XMLiks translaatori abil</h1>
+<div class="date"><a id='magicparlabel-3356' />2016</div>
+<div class="author"><a id='magicparlabel-3357' />Kristian Kankainen, MTÜ Keeleleek
+<br />
+
+Peeter Päll, Eesti Keele Instituut</div>
+<h2 class="section"><a id='magicparlabel-3358' /><span class="section_label">1</span> Sissejuhatus</h2>
+<div class="standard"><a id='magicparlabel-3359' />Kohanimeandmebaas (KNAB) on Eesti Keele Instituudis arendatav süstemaatiline kohanimeandmete kogu, mis hõlmab nii Eesti kui ka välismaa nimesid. Selle eesmärk on kaasa aidata nimede uurimisele ja nende normimisele, pakkudes teavet nimede ajaloo ja tänapäeva kohta. Andmebaas on kavandatud filoloogiakeskselt, võimaldamaks selle põhjal mitmesuguste nimeloendite ja sõnastike koostamist.</div>
+
+<div class="standard"><a id='magicparlabel-3360' />Arvutiandmebaasi kavandamist alustati 1988. aastal omaaegsete suurarvutite baasil. Selle ajaloo kohta loe rohkem leheküljel <a href="http://www.eki.ee/knab/kb_yld.htm">http://www.eki.ee/knab/kb_yld.htm</a>.</div>
+
+<div class="standard"><a id='magicparlabel-3361' />Kohanimeandmebaasi interneti-versioonis on kättesaadav vaid integreeritud osa. Andmete ümberviimine XMLi kujule lihtsustab andmete kättesaadavust ja võimaldab andmete paindliku esitamise.</div>
+
+<div class="standard"><a id='magicparlabel-3362' />Mis formaadis olid need enne konverteerimist? Kuidas olid need koostatud?</div>
+
+<div class="standard"><a id='magicparlabel-3363' />Töö põhikomponent ehk translaator loodi Tartu Ülikooli Arvutiteaduse instituudi aine &ldquo;Automaadid, keeled ja translaatorid&rdquo; (MTAT.05.085, 6&nbsp;EAP) raames 2016. aasta kevadsemestril. Töö lähtekood on litsentseeritud GNU&nbsp;GPLv3 alusel ja programmeerimistöö autor on Kristian Kankainen.</div>
+<h2 class="section"><a id='magicparlabel-3364' /><span class="section_label">2</span> Allikfailide transleerimine XMLiks</h2>
+<div class="standard"><a id='magicparlabel-3365' />Allikfailid süstematiseeritud struktuur võimaldab nende automaatset töötlemist. Sõelumise juures kehtestatakse loogiline struktuur andmete üle. Selline loogiline struktuur on kirjeldatav formaalse grammatikaga. Transleerimise juures käivitatakse loogilise struktuuriosade puhul mingi tegevus. Antud töö raames moodustuvad sellised tegevused suuresti struktuuriosade sisu ümberkirjutamine vastavaks XML väljundile.</div>
+
+<div class="standard"><a id='magicparlabel-3366' />Töös valitud formaalse grammatika võimaluste piires on tarbilik jagada konverteerimine mitmeks etapis. Siin peatükis kirjeldatud etappi võib mõista kui allikfailide makrostruktuuri konverteerimine. Järgmises peatükis käsitletakse konverteerimise mikrostruktuuri, ehk reasisest konverteerimist</div>
+
+<div class="standard"><a id='magicparlabel-3367' />Translaatorite ehitamine on võimalik automatiseerida, mille puhul lihtsustatakse programmeerimist suuresti kaheks komponendiks: sisendi loogilise struktuuri esitamiseks formaalse grammatika kujul ja transleeri tegevuste deklareerimiseks. Töös on kasutatud ANTLR&nbsp;4 translaatori ehitamiseks. Kirjutise autor tahab püsida neutraalsena tarkvara valikus. Valik tehti TÜ aine sisust ajendatuna.</div>
+
+<div class="standard"><a id='magicparlabel-3368' />Töövoo visualiseerimine on esialgu näidatud järgmiselt. Hiljem tuleb siia ilusa pildi koostada.
+<br />
+
+Allikfail &ndash;[transleerija]&ndash;&gt; XML &ndash;[Xquery]&ndash;&gt; XML<sup class="script_superscript">2</sup> ... XML<sup class="script_superscript">n</sup> &ndash;[Xquery]&ndash;&gt; XML<sup class="script_superscript">n+1</sup></div>
+
+<div class="standard"><a id='magicparlabel-3381' />Allikfaili tekstikuju näide on toodud joonises&nbsp;<a href="#fig_KNABi_allikfaili_struktuurin__idi">1</a>.</div>
+
+
+
+<div class='float float-figure'><div class='float float-listings'><pre class ='listings'> !`Aandu k &lt;"sk,"s1,"s0&gt; [EE1945n; EE1970n; EE1978n] 
+/p20:#H1021:#X96000808/RP:Khl/Hag//G:590916N-244306E 
+$k(:)R468 
+$pRP:Khl [1970; 1978]; HR:Khl:Kohila+kn [1945]; HR:Khl [1922] 
+$jLohu+ms [1725; 1913] 
+( Oando k [HR1926k]; Aando k [EE1922n]; Oandu k &lt;!kat&gt; [EE1930k_SK] 
+( Ando, (Df)+ &lt;de&gt; [Ri1913]; Aando, (Df)+ &lt;de&gt; [EE_P1871k:4t] 
+( Aanda, (Df)+ &lt;de&gt; [Me1798]; Aanda, Dorff+ &lt;de&gt; [HR1725n] 
+( Оандо, (д.)+ &lt;ru,*w&gt; [EE1900k_1v:4t] 
+3 A0# -ndu 
+5 Päevati k [1977]; Rootsi k [1977]; Kadaka k [1977] 
+9 EKNR</pre></div>
+
+
+<div class="plain_layout"><a id='magicparlabel-3402' /><span class='float-caption-Standard float-caption float-caption-standard'>Figure 1:KNABi allikfaili struktuurinäidis<a id="fig_KNABi_allikfaili_struktuurin__idi" />
+</span></div>
+</div>
+
+
+<div class="standard"><a id='magicparlabel-3407' />Allikfailide abstraktse (makrostruktuuri) kirjeldus on veebiaadressil.</div>
+
+<div class="standard"><a id='magicparlabel-3408' />Esmase transleeritud XMLi puustruktuuri kirjeldus on toodud joonises&nbsp;<a href="#fig_KNABi_XMLi_struktuurin__idis">2</a>. Struktuur peegeldab allikfailide struktuuri.</div>
+
+
+
+<div class='float float-figure'><div class='float float-listings'><pre class ='listings'>&lt;kirje&gt;
+  &lt;põhirida&gt; !`Aandu k 
+    &lt;infomärgendid&gt;"sk,"s1,"s0&lt;/infomärgendid&gt; 
+    &lt;allikaviitemärgendid&gt;EE1945n; EE1970n; EE1978n&lt;/allikaviitemärgendid&gt;
+  &lt;/põhirida&gt;
+  &lt;lisarida&gt;p20:#H1021:#X96000808/RP:Khl/Hag//G:590916N-244306E&lt;/lisarida&gt;
+  &lt;laiendirida&gt;k(:)R468&lt;/laiendirida&gt;
+  &lt;laiendirida&gt;pRP:Khl 
+    &lt;allikaviitemärgendid&gt;1970; 1978&lt;/allikaviitemärgendid&gt;; HR:Khl:Kohila+kn 
+    &lt;allikaviitemärgendid&gt;1945&lt;/allikaviitemärgendid&gt;; HR:Khl 
+    &lt;allikaviitemärgendid&gt;1922&lt;/allikaviitemärgendid&gt;
+  &lt;/laiendirida&gt;
+  &lt;laiendirida&gt;jLohu+ms 
+    &lt;allikaviitemärgendid&gt;1725; 1913&lt;/allikaviitemärgendid&gt;
+  &lt;/laiendirida&gt; 
+  &lt;rööpnimerida&gt; Oando k 
+    &lt;allikaviitemärgendid&gt;HR1926k&lt;/allikaviitemärgendid&gt;; Aando k 
+    &lt;allikaviitemärgendid&gt;EE1922n&lt;/allikaviitemärgendid&gt;; Oandu k 
+    &lt;infomärgendid&gt;!kat&lt;/infomärgendid&gt;
+    &lt;allikaviitemärgendid&gt;EE1930k_SK&lt;/allikaviitemärgendid&gt;
+  &lt;/rööpnimerida&gt;
+  &lt;rööpnimerida&gt; Ando, (Df)+ &lt;infomärgendid&gt;de&lt;/infomärgendid&gt;
+    &lt;allikaviitemärgendid&gt;Ri1913&lt;/allikaviitemärgendid&gt;; Aando, (Df)+ 
+    &lt;infomärgendid&gt;de&lt;/infomärgendid&gt; 
+    &lt;allikaviitemärgendid&gt;EE_P1871k:4t&lt;/allikaviitemärgendid&gt;
+  &lt;/rööpnimerida&gt;
+  &lt;rööpnimerida&gt; Aanda, (Df)+ &lt;infomärgendid&gt;de&lt;/infomärgendid&gt;
+    &lt;allikaviitemärgendid&gt;Me1798&lt;/allikaviitemärgendid&gt;; Aanda, Dorff+ 
+    &lt;infomärgendid&gt;de&lt;/infomärgendid&gt;
+    &lt;allikaviitemärgendid&gt;HR1725n&lt;/allikaviitemärgendid&gt;
+  &lt;/rööpnimerida&gt;
+  &lt;rööpnimerida&gt; Оандо, (д.)+ &lt;infomärgendid&gt;ru,*w&lt;/infomärgendid&gt;
+    &lt;allikaviitemärgendid&gt;EE1900k_1v:4t&lt;/allikaviitemärgendid&gt;
+  &lt;/rööpnimerida&gt;
+  &lt;etümoloogiarida&gt; A0# -ndu&lt;/etümoloogiarida&gt;
+  &lt;alaobjektiderida&gt; Päevati k &lt;allikaviitemärgendid&gt;1977&lt;/allikaviitemärgendid&gt;; Rootsi k 
+    &lt;allikaviitemärgendid&gt;1977&lt;/allikaviitemärgendid&gt;; Kadaka k   
+    &lt;allikaviitemärgendid&gt;1977&lt;/allikaviitemärgendid&gt;
+  &lt;/alaobjektiderida&gt;
+  &lt;koostajarida&gt; EKNR&lt;/koostajarida&gt;
+&lt;/kirje&gt;</pre></div>
+
+
+<div class="plain_layout"><a id='magicparlabel-3458' /><span class='float-caption-Standard float-caption float-caption-standard'>Figure 2:KNABi XMLi struktuurinäidis<a id="fig_KNABi_XMLi_struktuurin__idis" />
+</span></div>
+</div>
+
+<h3 class="subsection"><a id='magicparlabel-3463' /><span class="subsection_label">2.1</span> Sõeluja kitsaskohad</h3>
+<div class="standard"><a id='magicparlabel-3464' />ANTLRi metodoloogiliste valikute tõttu ei suudeta formaalses grammatikas väljendada üht allikfailides esinenud tõika. Nimelt esinesid järgridade klassifitseerimiseks kasutatud erimärgid (tokenid) ka muudes kohtades allikfaili struktuuris. Kuna need esinesid ainult allikfailide vaba teksti osades, sai need puudused kõrvaldatud allikfailide tekstide ümberkirjutamisega (relevantsed reaalgused asendati kahe sidekriipsuga algavatega).</div>
+
+<div class="standard"><a id='magicparlabel-3465' />Need kitsaskohad kehtivad ainult allikfailide puhul ja ei puuduta andmete täiendamist XMLi toimetamissüsteemi juures.</div>
+<h2 class="section"><a id='magicparlabel-3466' /><span class="section_label">3</span> XML struktuuri edasine transleerimine Xquery abil</h2>
+<div class="standard"><a id='magicparlabel-3467' />Konverteerimist on lihtsam teha etapiliselt, kus iga etapiga teisendatakse mingi konkreetne struktuur ümber teiseks ja XML-põhiseks. Kui eelmises peatükis kirjeldatud konverteerimine on mõistetav kui allikfaili makrostruktuuri teisendamisena, siis edaspidi tuleb juttu mikrostruktuuri teisendamisest, ehk allikfaili ridadesisesest teisendamisest.</div>
+
+<div class="standard"><a id='magicparlabel-3468' />XML tehnoloogia sobitub ideaalselt allikfailide ridadesiseseks teisendamiseks. XMLi kasutamine ja ümbertöötlemine tegi läbi hüppelise arengu, kui W3C töörühmad defineerisid uue standardi selle andmestruktuurile seoses XPath&nbsp;2.0 keelega. Uut andmestruktuuri oli vaja selleks, et ühtlustada W3C eri töörühmade tehnoloogiaid. Peamised XMLi töötlevad tehnoloogiad on XSLT&nbsp;2.0 ja Xquery, mis mõlemad järgivad XPath&nbsp;2.0 standardit.</div>
+
+<div class="standard"><a id='magicparlabel-3469' />Olgu siinkohal öeldud vaid niipalju, et XMLi töötlevad tehnoloogiad on omavahel väga komplementaarsed ja kellele üks ei meeldi, tasuks proovida teist. XSLT on deklaratiivne keel, mille maailmapilt on ülevalt-alla, see töötleb XMLi suunas suuremast üksusest väiksemale. Xquery maailmapilt on altpoolt-ülesse ja töötleb XMLi kokkupannes väiksemaid üksusi suuremateks. Erinevad probleemid on tihti lihtsamini kirjeldatavad ühel või teisel moel &ndash; ja seega programmaatiliselt lihtsamini lahendatavad ühe või teise keele abil.</div>
+<h3 class="subsection"><a id='magicparlabel-3470' /><span class="subsection_label">3.1</span> Lisaridade konverteerimine</h3>
+
+<div class='float float-algorithm'><div class="plain_layout"><a id='magicparlabel-3475' /><span class='float-caption-Standard float-caption float-caption-standard'>Algorithm 1:Lisaridade konverteerimine Xquery abil<a id="alg_Lisaridade_konverteerimine_Xquer" />
+</span></div>
+
+<div class='float float-listings'><pre class ='listings'><<pre></pre> class="verbatim"><a id='magicparlabel-3479' /><p class="verbatim_item">let $knab := db:open("eeufx")</p>
+<p class="verbatim_item">for $lisarida in //lisarida</p>
+<p class="verbatim_item">  let $osad := fn:tokenize($lisarida, "/")</p>
+<p class="verbatim_item">  return </p>
+<p class="verbatim_item">    replace node $lisarida</p>
+<p class="verbatim_item">    with</p>
+<p class="verbatim_item">      &lt;lisarida&gt; </p>
+<p class="verbatim_item">        &lt;liigikood&gt;{$osad[1]}&lt;/liigikood&gt;</p>
+<p class="verbatim_item">        &lt;praeguneHalduvuskuuluvus&gt;{$osad[2]}&lt;/praeguneHalduvuskuuluvus&gt;</p>
+<p class="verbatim_item">        &lt;ajaloolineHalduvuskuuluvus&gt;{$osad[3]}&lt;/ajaloolineHalduvuskuuluvus&gt;  </p>
+<p class="verbatim_item">        &lt;lähikuuluvus&gt;{$osad[4]}&lt;/lähikuuluvus&gt;</p>
+<p class="verbatim_item">        &lt;kohaviide&gt;{$osad[5]}&lt;/kohaviide&gt;</p>
+<p class="verbatim_item">      &lt;/lisarida&gt;</p>
+</<pre></pre>>
+</pre></div>
+
+</div>
+
+
+<div class="standard"><a id='magicparlabel-3496' />Lisarea tekstis on kaldkriipsudega eraldatud viis infoüksust: liigikood, praegune halduskuuluvus, ajalooline halduskuuluvus, lähikuuluvus ja kohaviide. Algoritm&nbsp;<a href="#alg_Lisaridade_konverteerimine_Xquer">1</a> näidatud kood tükeldab lisarea kaldkriipsude kohtadelt ja lisab iga osise teksti vastava nimetusega XML elemendisse.</div>
+
+<div class="standard"><a id='magicparlabel-3497' />Info lisaridade konverteerimise kohta: konverditi 35269 lisarida. Ajakulu 2111.96 ms (millest Parsing: 0.75 ms - Compiling: 1.04 ms - Evaluating: 2110.11 ms - Printing: 0.07 ms).</div>
+<h3 class="subsection"><a id='magicparlabel-3498' /><span class="subsection_label">3.2</span> Järgmised etapid</h3>
+<div class="standard"><a id='magicparlabel-3499' />Töö on hetkel pooleldi ja ootab oma aega. </div>
+</body>
+</html>
